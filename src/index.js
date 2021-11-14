@@ -1,5 +1,4 @@
-// import './js/menu-js.js';
-// import './js/theme.js';
+
 
 import menuCardTpl from './templates/menu-tpl.hbs';
 import menu from './menu.json';
