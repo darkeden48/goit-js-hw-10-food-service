@@ -1,42 +1,34 @@
-
-
-import menuCardTpl from './templates/menu-tpl.hbs';
+import cartTpl from './templates/menu-tpl.hbs';
 import menu from './menu.json';
 
-const menuContainers=document.querySelector('.js-menu');
-const cardsMarkup=createMenuCardMarkup(menu);
-const changeTheme=document.querySelector('#theme-switch-toggle');
-const bodySite=document.querySelector('body')
+const menuZone = document.querySelector('.js-menu');
+const body = document.querySelector('body');
+const checkbox= document.querySelector('#theme-switch-toggle')
 
-menuContainers.insertAdjacentHTML("beforeend",cardsMarkup);
+const createMenu = menu.map(cartTpl).join('');
 
-changeTheme.addEventListener('change',themeChangeClick);
+menuZone.insertAdjacentHTML('beforeend', createMenu);
 
-const Theme = {
-    LIGHT: 'light-theme',
-    DARK: 'dark-theme',
-  };
+const checkboxPick = () => {
+  checkbox.checked
+  ? (body.classList.add('dark-theme'), 
+    body.classList.remove('light-theme'), 
+    localStorage.setItem('theme', 'dark'))
 
-function createMenuCardMarkup(menu){
-    return menu.map(menuCardTpl).join('');
+  : (body.classList.add('light-theme'), 
+    body.classList.remove('dark-theme'), 
+    localStorage.setItem('theme', 'light'))
 }
 
-if (localStorage.getItem('theme') === 'dark') {
-    bodySite.classList.toggle(`${Theme.DARK}`);
-    changeTheme.checked = true;
-  }
+const thema = localStorage.getItem('theme');
+thema === 'dark'
+? (body.classList.add('dark-theme'), 
+  body.classList.remove('light-theme'),
+  checkbox.checked = true)
+  
+: (body.classList.add('light-theme'), 
+  body.classList.remove('dark-theme'),
+  checkbox.checked = false)
+ 
 
-function themeChangeClick(event){
-    bodySite.classList.toggle(`${Theme.DARK}`);
-    changeTheme.checked
-    ? localStorage.setItem('theme', 'dark')
-    : localStorage.setItem('theme', 'light');
-}
-    // if(event.currentTarget.checked){
-    // bodySite.classList.add('dark-theme');
-    // bodySite.classList.remove('light-theme');
-    // }
-    // else{
-    //     bodySite.classList.add('light-theme');
-    //     bodySite.classList.remove('dark-theme');
-    // }
+checkbox.addEventListener('change', checkboxPick);
